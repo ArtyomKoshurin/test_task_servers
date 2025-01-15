@@ -50,13 +50,8 @@ class VPSInfoSerializer(serializers.ModelSerializer):
         fields = ('id', 'uid', 'cpu', 'ram', 'hdd', 'status')
 
 
-class VPSStatusUpdateSerializer(serializers.ModelSerializer):
+class VPSStatusUpdateSerializer(serializers.Serializer):
     """Сериализатор для обновления статуса виртуального сервера."""
     status = serializers.ChoiceField(
         choices=["Started", "Blocked", "Stopped"]
         )
-
-    class Meta:
-        model = VPS
-        fields = ('id', 'uid', 'cpu', 'ram', 'hdd', 'status')
-        read_only_fields = ('id', 'uid', 'cpu', 'ram', 'hdd')
