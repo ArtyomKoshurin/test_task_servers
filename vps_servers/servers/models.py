@@ -19,8 +19,7 @@ class VPS(models.Model):
     hdd = models.IntegerField()
     status = models.CharField(
         max_length=7,
-        choices=STATUS_CHOICES,
-        default="Stopped"
+        choices=STATUS_CHOICES
         )
 
     def __str__(self):

@@ -4,18 +4,17 @@ import string
 from rest_framework import serializers
 
 from .models import VPS
-from .utils import MAX_UID_VALUE_SIZE
+from .utils import MAX_UID_VALUE_SIZE, VPS_CREATION_MESSAGE
 
 
 class VPSCreationSerializer(serializers.ModelSerializer):
     """Сериализатор для создания новых виртуальных серверов."""
-    uid = serializers.CharField(max_length=32)
+    uid = serializers.CharField(max_length=32, required=False)
     cpu = serializers.IntegerField(required=True)
     ram = serializers.IntegerField(required=True)
     hdd = serializers.IntegerField(required=True)
     status = serializers.ChoiceField(
-        max_length=7,
-        choices=["Started", "Blocked", "Stopped"],
+        choices=["Started", "Blocked", "Stopped"]
         )
 
     class Meta:
@@ -49,3 +48,15 @@ class VPSInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = VPS
         fields = ('id', 'uid', 'cpu', 'ram', 'hdd', 'status')
+
+
+class VPSStatusUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для обновления статуса виртуального сервера."""
+    status = serializers.ChoiceField(
+        choices=["Started", "Blocked", "Stopped"]
+        )
+
+    class Meta:
+        model = VPS
+        fields = ('id', 'uid', 'cpu', 'ram', 'hdd', 'status')
+        read_only_fields = ('id', 'uid', 'cpu', 'ram', 'hdd')
